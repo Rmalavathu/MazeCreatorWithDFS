@@ -31,8 +31,30 @@ char * solveMaze(Maze * m) {
 
 bool depthFirstSolve(Maze * m, MazePos curpos, char * path, int step) {
 	
-	//FILL IN YOUR CODE HERE
+	//Case if it reaches the end
+	if(atEnd(curpos, m) == true){
+		path[step] = '\0';
+		return true;
+	}
+	//Case if it finds a bad square (obstacles/visited)
+	if(!squareOK(curpos, m)) {
+		return false;
+	}
+	//Makes current point already visited
+	m -> maze[curpos.ypos][curpos.xpos].visited = true;
+	char direc[4] = {NORTH, SOUTH, EAST, WEST};
+	//All the possible directions to go
+	MazePos positions[4] = {{.xpos = curpos.xpos, .ypos = curpos.ypos-1}, {.xpos = curpos.xpos, .ypos = curpos.ypos+1}, {.xpos = curpos.xpos+1, .ypos = curpos.ypos}, {.xpos = curpos.xpos-1, .ypos = curpos.ypos}};
 	
+	//Tries all four directions
+	for(int i = 0; i < 4; i++){
+		//If it succeeds returns those values
+		if(depthFirstSolve(m, positions[i],path, step+1)){
+			path[step] = direc[i];
+			return true;
+		}
+	}
+
 	return false;
 }
 
