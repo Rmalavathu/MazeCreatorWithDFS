@@ -44,12 +44,12 @@ bool depthFirstSolve(Maze * m, MazePos curpos, char * path, int step) {
 	m -> maze[curpos.ypos][curpos.xpos].visited = true;
 	char direc[4] = {NORTH, SOUTH, EAST, WEST};
 	//All the possible directions to go
-	MazePos positions[4] = {{.xpos = curpos.xpos, .ypos = curpos.ypos-1}, {.xpos = curpos.xpos, .ypos = curpos.ypos+1}, {.xpos = curpos.xpos+1, .ypos = curpos.ypos}, {.xpos = curpos.xpos-1, .ypos = curpos.ypos}};
+	MazePos pos[4] = {{.xpos = curpos.xpos, .ypos = curpos.ypos-1}, {.xpos = curpos.xpos, .ypos = curpos.ypos+1}, {.xpos = curpos.xpos+1, .ypos = curpos.ypos}, {.xpos = curpos.xpos-1, .ypos = curpos.ypos}};
 	
 	//Tries all four directions
 	for(int i = 0; i < 4; i++){
 		//If it succeeds returns those values
-		if(depthFirstSolve(m, positions[i],path, step+1)){
+		if(depthFirstSolve(m, pos[i],path, step+1)){
 			path[step] = direc[i];
 			return true;
 		}
