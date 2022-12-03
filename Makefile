@@ -9,11 +9,9 @@ $(EXEC): $(OBJS) solver.h
 	$(GCC) $(OBJS) -o $(EXEC) 
 
 test: $(EXEC)
-	./$(EXEC) testcases/maze1 output1
-	./$(EXEC) testcases/maze2 output2
-	./$(EXEC) testcases/maze3 output3
-	./$(EXEC) testcases/maze4 output4
-	./$(EXEC) testcases/maze5 output5
+	./$(EXEC) testcases/maze1 mazes/maze1 output1
+	./$(EXEC) testcases/maze2 mazes/maze2 output2
+	./$(EXEC) testcases/maze3 mazes/maze3 output3
 
 memory: $(EXEC)
 	$(VALGRIND) --log-file=log1 ./$(EXEC) testcases/maze1 output1

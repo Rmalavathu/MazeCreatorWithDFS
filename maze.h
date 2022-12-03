@@ -1,7 +1,3 @@
-// ***
-// *** Do NOT modify this file
-// ***
-
 #ifndef _MAZE_H_
 #define _MAZE_H_
 
@@ -66,6 +62,8 @@ NULL if readMaze fails to successfully allocate and initialize a Maze
 Pointer to an initialized Maze structure otherwise.
 */ 
 Maze * readMaze(char * mazeFilename);
+
+void makeMaze(char * mazeDimensionsFile, char * mazeFilename);
 
 /*
 Deallocate the MazeSquare array

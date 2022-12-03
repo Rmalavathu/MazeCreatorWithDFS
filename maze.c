@@ -67,6 +67,76 @@ Maze * readMaze(char * mazeFilename) {
 	
 	return m;
 }
+
+void makeMaze(char * mazeDimensionsFile, char * mazeFilename)
+{
+
+	FILE * fptr = fopen(mazeDimensionsFile, "r");
+	if (fptr == NULL) {
+		fprintf(stderr, "Could not open size file for reading\n");
+		exit(1);
+	}
+
+	int height;
+	int width;
+
+	//Maze * m = malloc(sizeof(Maze));
+
+
+	fscanf(fptr, "%d %d\n", &height, &width);
+
+	fclose(fptr);
+
+	char * * maze;
+
+	maze = malloc(height * sizeof(char *));
+	for (int i = 0; i < width; i++) {
+		maze[i] = malloc(width * sizeof(char));
+	}
+
+	int num;
+
+	for(int i = 0; i < height; i ++){
+		for(int j = 0; j < width; j++){
+			maze[j][i] = '.';
+		}
+	}
+
+	for(int i = 0; i < height; i ++){
+		for(int j = 0; j < width; j++){
+			num = (rand() % (3)) + 0;
+			if (num == 0){
+				maze[i][j] = '#';
+			}
+		}
+	}
+
+	maze[0][0] = 's';
+	maze[width-1][height-1] = 'e';
+
+	FILE * fptr2 = fopen(mazeFilename, "w");
+	if (fptr2 == NULL) {
+		fprintf(stderr, "Could not open size file for reading\n");
+		exit(1);
+	}
+	fprintf(fptr2, "%d %d\n", height, width);
+	for(int i = 0; i < height; i ++){
+		for(int j = 0; j < width; j++){
+			fprintf(fptr2, "%c", maze[i][j]);
+			printf("%c", maze[i][j]);
+
+		}
+		fprintf(fptr, "\n");
+		printf("\n");
+	}
+
+	fclose(fptr2);
+	for (int i = 0; i < width; i++) {
+		free(maze[i]);
+	}
+		free(maze);
+}
+
 void freeMaze(Maze * m) {
 	//1. Free each of the "rows" of the maze
 	for (int i = 0; i < m->height; i++) {

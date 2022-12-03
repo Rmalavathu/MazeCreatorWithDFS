@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "path.h"
 #include "mazehelper.h"
 
@@ -21,6 +22,7 @@ char * readPath(char * pathFilename) {
 		fgetc(inPath);
 		length++;
 	}
+	printf("%d\n", length);
 	
 	//allocate path array
 	char * path = malloc(length * sizeof(char));
@@ -44,8 +46,15 @@ char * readPath(char * pathFilename) {
 }
 
 bool checkPath(Maze * m, char * path) {
+
+	if(path[0] == -80){
+		printf("hello");
+	}
+
 	MazePos cur = {.xpos = m->start.xpos, .ypos = m->start.ypos};
 	int pathPos = 0;
+
+	printf("%ld", strlen(path));
 	
 	while (path[pathPos] != '\0') {
 		

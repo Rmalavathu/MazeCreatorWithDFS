@@ -7,6 +7,7 @@
 
 #include <stdbool.h>
 #include "maze.h"
+#include <time.h>
 
 //Enum for path type
 typedef enum PathType {
