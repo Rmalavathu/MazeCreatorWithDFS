@@ -22,7 +22,6 @@ char * readPath(char * pathFilename) {
 		fgetc(inPath);
 		length++;
 	}
-	printf("%d\n", length);
 	
 	//allocate path array
 	char * path = malloc(length * sizeof(char));
@@ -34,6 +33,7 @@ char * readPath(char * pathFilename) {
 	}
 	
 	//read in array
+	path[0] = '\0'; //Makes sure first value is null
 	fscanf(inPath, "%s\n", path);
 	
 	//close file
@@ -47,14 +47,11 @@ char * readPath(char * pathFilename) {
 
 bool checkPath(Maze * m, char * path) {
 
-	if(path[0] == -80){
-		printf("hello");
-	}
 
 	MazePos cur = {.xpos = m->start.xpos, .ypos = m->start.ypos};
 	int pathPos = 0;
 
-	printf("%ld", strlen(path));
+	//printf("%d\n", path[0]);
 	
 	while (path[pathPos] != '\0') {
 		

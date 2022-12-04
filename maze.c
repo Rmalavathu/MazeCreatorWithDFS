@@ -71,7 +71,10 @@ Maze * readMaze(char * mazeFilename) {
 void makeMaze(char * mazeDimensionsFile, char * mazeFilename)
 {
 
+	//Opens input file with dimensions
 	FILE * fptr = fopen(mazeDimensionsFile, "r");
+
+	//Error check for openning file
 	if (fptr == NULL) {
 		fprintf(stderr, "Could not open size file for reading\n");
 		exit(1);
@@ -82,13 +85,14 @@ void makeMaze(char * mazeDimensionsFile, char * mazeFilename)
 
 	//Maze * m = malloc(sizeof(Maze));
 
-
+	//Reads the height and width from file
 	fscanf(fptr, "%d %d\n", &height, &width);
 
 	fclose(fptr);
 
 	char * * maze;
 
+	//Mallocs memory for the 2d maze array
 	maze = malloc(height * sizeof(char *));
 	for (int i = 0; i < width; i++) {
 		maze[i] = malloc(width * sizeof(char));
@@ -96,40 +100,49 @@ void makeMaze(char * mazeDimensionsFile, char * mazeFilename)
 
 	int num;
 
+	//Sets all of the maze to open spots
 	for(int i = 0; i < height; i ++){
 		for(int j = 0; j < width; j++){
 			maze[j][i] = '.';
 		}
 	}
 
+	//Randomly adds obstacles to maze using rand
 	for(int i = 0; i < height; i ++){
 		for(int j = 0; j < width; j++){
-			num = (rand() % (3)) + 0;
+			num = (rand() % (2)) + 0;
 			if (num == 0){
 				maze[i][j] = '#';
 			}
 		}
 	}
 
+	//sets start to top corner
 	maze[0][0] = 's';
+
+	//sets end to bottom corner
 	maze[width-1][height-1] = 'e';
 
+	//opens file to write out new maze
 	FILE * fptr2 = fopen(mazeFilename, "w");
 	if (fptr2 == NULL) {
 		fprintf(stderr, "Could not open size file for reading\n");
 		exit(1);
 	}
+
+	//writes maze to file
 	fprintf(fptr2, "%d %d\n", height, width);
 	for(int i = 0; i < height; i ++){
 		for(int j = 0; j < width; j++){
 			fprintf(fptr2, "%c", maze[i][j]);
-			printf("%c", maze[i][j]);
+			//printf("%c", maze[i][j]);
 
 		}
 		fprintf(fptr, "\n");
-		printf("\n");
+		//printf("\n");
 	}
 
+	//free the maze
 	fclose(fptr2);
 	for (int i = 0; i < width; i++) {
 		free(maze[i]);

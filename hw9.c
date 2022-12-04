@@ -16,62 +16,57 @@ int main(int argc, char ** argv) {
 		return EXIT_FAILURE;
 	}
 
+	bool solvable; //Boolean to check if maze is solvable
+	solvable = false;
+	Maze * m;
+	char * path;
 	srand ( time(NULL) );
 
 
-	makeMaze(argv[1], argv[2]);
-	
-	Maze * m = readMaze(argv[2]);
-	
-	if (m == NULL) {
-		return EXIT_FAILURE;
-	}
+	while(!solvable){
+		makeMaze(argv[1], argv[2]); //Calls make maze
+		
+		m = readMaze(argv[2]);
+		
+		if (m == NULL) {
+			return EXIT_FAILURE;
+		}
 
-	char * path = solveMaze(m);
-	
-	if (writePath(argv[3], path)) {
+		path = solveMaze(m);
+		
+		if (writePath(argv[3], path)) {
+			freeMaze(m);
+			free(m);
+			free(path);
+			return EXIT_FAILURE;
+		}
+
 		freeMaze(m);
 		free(m);
 		free(path);
-		return EXIT_FAILURE;
-	}
 
-       /*
-       For testing purpose ONLY: You can use the code below 
-       to *read in* a path from a pathFile, and check if 
-       it's a solution to the maze. This is a good way 
-       to check the outputs that your solver is producing.
-       To use the following code, just include the testflag
-       -DCHECK_PATH in the gcc command in your Makefile
-       */
+		m = readMaze(argv[2]);
+		path = readPath(argv[3]);
 
+		if (path == NULL) {
+			freeMaze(m);
+			free(m);
+			return EXIT_FAILURE;
+		}
+		solvable = checkPath(m, path); //calls check path
+		if (solvable) {
+			printf("Success!\n");
+			return EXIT_SUCCESS;
+		} else {
+			printf("Failure!\n");
+		}
+		
+		//Clean up memory
 
-	#ifdef CHECK_PATH
-	freeMaze(m);
-	free(m);
-	free(path);
-
-	m = readMaze(argv[2]);
-	path = readPath(argv[3]);
-
-	if (path == NULL) {
 		freeMaze(m);
-	 	free(m);
-	 	return EXIT_FAILURE;
+		free(m);
+		free(path);
+
 	}
-	
-	if (checkPath(m, path)) {
-	 	printf("Success!\n");
-	} else {
-	 	printf("Failure!\n");
-	}
-	#endif
-	
-	//Clean up memory
-	freeMaze(m);
-	free(m);
-	free(path);
-	
-	return EXIT_SUCCESS;
 
 }
