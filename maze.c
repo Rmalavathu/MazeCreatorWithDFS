@@ -138,7 +138,7 @@ void makeMaze(char * mazeDimensionsFile, char * mazeFilename)
 			//printf("%c", maze[i][j]);
 
 		}
-		fprintf(fptr, "\n");
+		fprintf(fptr2, "\n");
 		//printf("\n");
 	}
 
